@@ -64,7 +64,7 @@ if __name__ == "__main__":
    
    Y = LpVariable.dicts('y',(set,set),0,1,'Binary')
    Z = LpVariable.dicts('z',(set,set),0,1,'Binary') 
-   X = LpVariable.dicts('x',(set,set),0)
+   X = LpVariable.dicts('x',(set,(set,set)),0)
 
    Hub=LpProblem("Hub",LpMinimize)
    list_fc = [fixCost_fk[k] * Z[k][k] for k in set]
