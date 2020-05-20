@@ -124,13 +124,13 @@ if __name__ == "__main__":
     for i in set:
         for k in set:
             if k!=i:
-                for m in set:
-                     somme1=0
-                     somme2=0
+               somme1=0
+               somme2=0
+                for m in set:                     
                     if m!=k:
                         somme1+= X[i,(m,k)]
                         somme2+= X[i,(k,m)]
-                        Hub+= (O[i-1]*Z[i][k] + somme1) = somme2 + lpSum(flow_wij[i][m]*Z[m][k] for m in set))
+                Hub+= (O[i-1]*Z[i][k] + somme1) = somme2 + lpSum(flow_wij[i][m]*Z[m][k] for m in set))
    #contrainte5:
    for k in set:
       if i=!K:
