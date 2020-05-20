@@ -124,3 +124,11 @@ if __name__ == "__main__":
    Hub += (lpSum(lpSum(Y[k][m] for m in set)for k in set)=lpSum(Z[k][k] for k in set)- 1)          
    
    
+   Hub.solve()
+   print ("Status:",LpStatus[Hub.status])
+   for v in Hub.variables():
+      if v.varValue >0:
+         print(v.name, "=", v.varValue)
+    print ("Objective value Hub =",value(Hub.objective))
+           
+           
