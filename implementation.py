@@ -70,10 +70,27 @@ if __name__ == "__main__":
    for i in set:
       O.append(sum([flow_wij[i][j] for j in set ]))
       
+   D = []
+   for i in set:
+      D.append(sum([flow_wij[j][i] for j in set ]))
+      
 
    Hub=LpProblem("Hub",LpMinimize)
+   
+   #fixed costs
    list_fc = [fixCost_fk[k] * Z[k][k] for k in set]
    fixed_cost = LpSum(list_fc)
+   
+   #variable costs
+   list_vc1 = [ varCost_cij [key] * O[key[0]] * Z[key[0]][key[1]] for key in varCost_cij]
+   list_vc2 = [ varCost_cij [key] * D[key[1]] * Z[key[1]][key[0]] for key in varCost_cij]
+   variable_cost1 = lpSum([lpSum(list_vc1),lpSum(list_vc2)])
+   
+   list_vc3 = []
+   for k in set:
+      for m in set:
+         if 
+         
    
    # contrainte1
    for i in set:
@@ -91,19 +108,7 @@ if __name__ == "__main__":
       for m in set:
          if m>k:
             Hub += X[i,(k,m)] + X[i,(m,k)] <= O[i]*Y[k][m]
-
-     #contrainte4:
-    for i in set:
-        for k in set:
-            if k!=i:
-                Hub+= (O[i]*Z[i][k] + lpSum(X[i,(m,k)] for m  in set and m!=k) = lpSum(X[i,(k,m)] for m in set and m!=k) + lpSum(flow_wim*Z[m][k] for m in set))
-   #contrainte5:
-   for k in set:
-      if i=!K:
-         if m=!k:
-            Hub += lpSum((O[i]*Z[i][k] + lpSum(X[i,(m,k)] for m in set) for i in set) <= Cap_ckmax
             
-    #contrainte6
-   Hub += (lpSum(lpSum(Y[k][m] for m in set)for k in set)=lpSum(Z[k][k] for k in set)- 1)
+            
    
    
