@@ -121,9 +121,9 @@ if __name__ == "__main__":
             
        #contrainte4:
     
-    for i in set:
-        for k in set:
-            if k!=i:
+    for k in set:
+        for i in set:
+            if i!=k:
                somme1=0
                somme2=0
                 for m in set:                     
