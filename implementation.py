@@ -65,6 +65,11 @@ if __name__ == "__main__":
    Y = LpVariable.dicts('y',(set,set),0,1,'Binary')
    Z = LpVariable.dicts('z',(set,set),0,1,'Binary') 
    X = LpVariable.dicts('x',(set,(set,set)),0)
+   
+   O = []
+   for i in set:
+      O.append(sum([flow_wij[i][j] for j in set ]))
+      
 
    Hub=LpProblem("Hub",LpMinimize)
    list_fc = [fixCost_fk[k] * Z[k][k] for k in set]
@@ -82,13 +87,11 @@ if __name__ == "__main__":
             Hub += Z[m][k]+Y[k][m]<=Z[k][k]
    
    #contrainte3
-   for i in set:
     for k in set:
       for m in set:
          if m>k:
             Hub += X[i,(k,m)] + X[i,(m,k)] <= O[i]*Y[k][m]
             
-    #contrainte6
-   Hub += (lpSum(lpSum(Y[k][m] for m in set)for k in set)=lpSum(Z[k][k] for k in set)- 1)
+            
    
    
