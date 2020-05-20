@@ -78,12 +78,12 @@ if __name__ == "__main__":
    Hub=LpProblem("Hub",LpMinimize)
    
    #fixed costs
-   list_fc = [fixCost_fk[k] * Z[k][k] for k in set]
+   list_fc = [fixCost_fk[k-1] * Z[k][k] for k in set]
    fixed_cost = LpSum(list_fc)
    
    #variable costs
-   list_vc1 = [ varCost_cij [key] * O[key[0]] * Z[key[0]][key[1]] for key in varCost_cij]
-   list_vc2 = [ varCost_cij [key] * D[key[1]] * Z[key[1]][key[0]] for key in varCost_cij]
+   list_vc1 = [ varCost_cij [key] * O[key[0]-1] * Z[key[0]][key[1]] for key in varCost_cij]
+   list_vc2 = [ varCost_cij [key] * D[key[1]-1] * Z[key[1]][key[0]] for key in varCost_cij]
    variable_cost1 = lpSum([lpSum(list_vc1),lpSum(list_vc2)])
    
    list_vc3 = []
@@ -124,11 +124,3 @@ if __name__ == "__main__":
    Hub += (lpSum(lpSum(Y[k][m] for m in set)for k in set)=lpSum(Z[k][k] for k in set)- 1)          
    
    
-   Hub.solve()
-   print ("Status:",LpStatus[Hub.status])
-   for v in Hub.variables():
-      if v.varValue >0:
-         print(v.name, "=", v.varValue)
-    print ("Objective value Hub =",value(Hub.objective))
-           
-           
