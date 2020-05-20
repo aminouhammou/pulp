@@ -82,6 +82,7 @@ if __name__ == "__main__":
             Hub += Z[m][k]+Y[k][m]<=Z[k][k]
    
    #contrainte3
+   for i in set:
     for k in set:
       for m in set:
          if m>k:
