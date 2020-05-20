@@ -92,6 +92,12 @@ if __name__ == "__main__":
          if m>k:
             Hub += X[i,(k,m)] + X[i,(m,k)] <= O[i]*Y[k][m]
             
+   #contrainte5:
+   for k in set:
+      if i=!K:
+         if m=!k:
+            Hub += lpSum((O[i]*Z[i][k] + lpSum(X[i,(m,k)] for m in set) for i in set) <= Cap_ckmax
+            
     #contrainte6
    Hub += (lpSum(lpSum(Y[k][m] for m in set)for k in set)=lpSum(Z[k][k] for k in set)- 1)
    
