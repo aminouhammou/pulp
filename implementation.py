@@ -60,3 +60,7 @@ if __name__ == "__main__":
 
    Cap_ckmax = read_excel_data(InputData, "Cap(ckmax)")
    print("Cap(ckmax): ", Cap_ckmax)
+   
+   Y_kl = LpVariable.dicts('y',(set,set),0,1,'Binary')
+   Z_ik = LpVariable.dicts('z',(set,set),0,1,'Binary') 
+   X_ikl = LpVariable.dicts('x',(set,set),0)
