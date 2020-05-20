@@ -8,10 +8,10 @@ import math as mt
 
 if __name__ == "__main__":
 
-   InputData = "InputDataSmallHubSmallInstance.xlsx"
+   InputData = "InputDataHubSmallInstance.xlsx"
 
   # Input Data Preparation #
-   def read_excel(filename, sheet_name):
+   def read_excel_data(filename, sheet_name):
       data = pd.read_excel(filename, sheet_name=sheet_name, header=None)
       values = data.values
       if min(values.shape) == 1:  # This If is to make the code insensitive to column-wise or row-wise expression #
@@ -43,12 +43,13 @@ if __name__ == "__main__":
    NodeNum = read_excel_data(InputData, "NodeNum")
    NodeNum = NodeNum[0]
    print("NodeNum: ", NodeNum)
+   
+   set = [i+1 for i in range(NodeNum)]
 
    alpha = read_excel_data(InputData, "alpha")
    alpha = alpha[0]
    print("alpha: ", alpha)
 
-  
    flow_wij = read_excel_data(InputData, "flow(wij)")
    print("flow(wij): ", flow_wij)
 
@@ -61,6 +62,6 @@ if __name__ == "__main__":
    Cap_ckmax = read_excel_data(InputData, "Cap(ckmax)")
    print("Cap(ckmax): ", Cap_ckmax)
    
-   Y_kl = LpVariable.dicts('y',(set,set),0,1,'Binary')
-   Z_ik = LpVariable.dicts('z',(set,set),0,1,'Binary') 
-   X_ikl = LpVariable.dicts('x',(set,set),0)
+   Y = LpVariable.dicts('y',(set,set),0,1,'Binary')
+   Z = LpVariable.dicts('z',(set,set),0,1,'Binary') 
+   X = LpVariable.dicts('x',(set,set),0)
