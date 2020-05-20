@@ -120,10 +120,17 @@ if __name__ == "__main__":
              Hub += X[i,(k,m)] + X[i,(m,k)] <= O[i-1]*Y[k][m]
             
        #contrainte4:
+    
     for i in set:
         for k in set:
             if k!=i:
-                Hub+= (O[i]*Z[i][k] + lpSum(X[i,(m,k)] for m  in set and m!=k) = lpSum(X[i,(k,m)] for m in set and m!=k) + lpSum(flow_wim*Z[m][k] for m in set))
+                for m in set:
+                     somme1=0
+                     somme2=0
+                    if m!=k:
+                        somme1+= X[i,(m,k)]
+                        somme2+= X[i,(k,m)]
+                        Hub+= (O[i]*Z[i][k] + somme1) = somme2 + lpSum(flow_wij[i][m]*Z[m][k] for m in set))
    #contrainte5:
    for k in set:
       if i=!K:
