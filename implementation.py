@@ -94,7 +94,7 @@ if __name__ == "__main__":
                list_vc3.append( alpha * varCost_cij[(k,m)] * X[i,(k,m)])
    variable_cost2= LpSum(list_vc3)
    
-   variable_cost= lpSum([variable_cost1,variable_cost2]]
+   variable_cost= lpSum([variable_cost1,variable_cost2])
                         
    Hub+=lpSum([fixed_cost,variable_cost])
                 
@@ -132,9 +132,4 @@ if __name__ == "__main__":
     #contrainte6
    Hub += (lpSum(lpSum(Y[k][m] for m in set)for k in set)=lpSum(Z[k][k] for k in set)- 1)          
    
-   Hub.solve()
-   print ("Status:",LpStatus[Hub.status])
-   for v in Hub.variables():
-      if v.varValue >0:
-         print(v.name, "=", v.varValue)
-    print ("Objective value Hub =",value(Hub.objective))
+   
