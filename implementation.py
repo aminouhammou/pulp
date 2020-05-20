@@ -71,6 +71,7 @@ if __name__ == "__main__":
    fixed_cost = LpSum(list_fc)
    
    # contrainte1
-   Hub+= (lpSum(Z[i][k] for k in set) = 1) 
+   for i in set:
+      Hub+= (lpSum(Z[i][k] for k in set) = 1) 
    
    
