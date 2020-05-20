@@ -39,8 +39,7 @@ if __name__ == "__main__":
  
    # This section reads the data from Excel #
 
-   # Read a set (set is the name of the worksheet)
-   # The set has eight elements
+   
    NodeNum = read_excel_data(InputData, "NodeNum")
    NodeNum = NodeNum[0]
    print("NodeNum: ", NodeNum)
@@ -49,7 +48,7 @@ if __name__ == "__main__":
    alpha = alpha[0]
    print("alpha: ", alpha)
 
-   # Read an array 4x4 (array2 is the name of the worksheet)
+  
    flow_wij = read_excel_data(InputData, "flow(wij)")
    print("flow(wij): ", flow_wij)
 
