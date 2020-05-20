@@ -139,7 +139,7 @@ if __name__ == "__main__":
             for m in set:
                if m=!k:
                   somme+= X[i,(m,k)]
-            Hub += lpSum((O[i]*Z[i][k] + somme) for i in set) <= Cap_ckmax[k-1]
+      Hub += lpSum((O[i]*Z[i][k] + somme) for i in set) <= Cap_ckmax[k-1]
             
     #contrainte6
    Hub += (lpSum(lpSum(Y[k][m] for m in set)for k in set)=lpSum(Z[k][k] for k in set)- 1)          
