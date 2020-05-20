@@ -87,6 +87,7 @@ if __name__ == "__main__":
          if m>k:
             Hub += X[i,(k,m)] + X[i,(m,k)] <= O[i]*Y[k][m]
             
-            
+    #contrainte6
+   Hub += (lpSum(lpSum(Y[k][m] for m in set)for k in set)=lpSum(Z[k][k] for k in set)- 1)
    
    
