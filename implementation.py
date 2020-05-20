@@ -133,8 +133,9 @@ if __name__ == "__main__":
                 Hub+= (O[i-1]*Z[i][k] + somme1) = somme2 + lpSum(flow_wij[i][m]*Z[m][k] for m in set)
    #contrainte5:
    for k in set:
-      if i=!K:
-         if m=!k:
+      for i in set:
+         if i=!k:
+            if m=!k:
             Hub += lpSum((O[i]*Z[i][k] + lpSum(X[i,(m,k)] for m in set) for i in set) <= Cap_ckmax
             
     #contrainte6
