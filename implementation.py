@@ -113,10 +113,11 @@ if __name__ == "__main__":
             Hub += Z[m][k]+Y[k][m]<=Z[k][k]
    
    #contrainte3
-    for k in set:
-      for m in set:
-         if m>k:
-            Hub += X[i,(k,m)] + X[i,(m,k)] <= O[i]*Y[k][m]
+   for i in set:
+     for k in set:
+       for m in set:
+          if m>k:
+             Hub += X[i,(k,m)] + X[i,(m,k)] <= O[i-1]*Y[k][m]
             
        #contrainte4:
     for i in set:
