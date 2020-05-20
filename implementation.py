@@ -74,4 +74,14 @@ if __name__ == "__main__":
    for i in set:
       Hub+= (lpSum(Z[i][k] for k in set) = 1) 
    
+   #contrainte2
+   for k in set:
+      for m in set:
+         if m>k:
+            Hub += Z[k][m]+Y[k][m]<=Z[m][m]
+            Hub += Z[m][k]+Y[k][m]<=Z[k][k]
+   
+            
+            
+   
    
