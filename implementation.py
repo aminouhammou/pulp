@@ -20,7 +20,7 @@ if __name__ == "__main__":
           else:
               values = values.transpose()
               values = values.tolist()
-          return values[0]        
+          return values[0]
       else:
           data_dict = {}
           if min(values.shape) == 2:  # For single-dimension parameters in Excel
@@ -30,20 +30,20 @@ if __name__ == "__main__":
               else:
                   for i in range(values.shape[0]):
                       data_dict[i+1] = values[i][1]
-             
+
           else:  # For two-dimension (matrix) parameters in Excel
               for i in range(values.shape[0]):
                   for j in range(values.shape[1]):
                       data_dict[(i+1, j+1)] = values[i][j]
           return data_dict
- 
+
    # This section reads the data from Excel #
 
-   
+
    NodeNum = read_excel_data(InputData, "NodeNum")
    NodeNum = NodeNum[0]
    print("NodeNum: ", NodeNum)
-   
+
    set = [i+1 for i in range(NodeNum)]
 
    alpha = read_excel_data(InputData, "alpha")
@@ -61,66 +61,66 @@ if __name__ == "__main__":
 
    Cap_ckmax = read_excel_data(InputData, "Cap(ckmax)")
    print("Cap(ckmax): ", Cap_ckmax)
-   
+
    Y = LpVariable.dicts('y',(set,set),0,1,'Binary')
-   Z = LpVariable.dicts('z',(set,set),0,1,'Binary') 
-   X = LpVariable.dicts('x',(set,(set,set)),0)
-   
+   Z = LpVariable.dicts('z',(set,set),0,1,'Binary')
+   X = LpVariable.dicts('x',(set,set,set),0)
+
    O = []
    for i in set:
-      O.append(sum([flow_wij[i][j] for j in set ]))
-      
+      O.append(np.sum([flow_wij[(i,j)] for j in set ]))
+
    D = []
    for i in set:
-      D.append(sum([flow_wij[j][i] for j in set ]))
-      
+      D.append(np.sum([flow_wij[(j,i)] for j in set ]))
+
 
    Hub=LpProblem("Hub",LpMinimize)
-   
+
    #fixed costs
    list_fc = [fixCost_fk[k-1] * Z[k][k] for k in set]
-   fixed_cost = LpSum(list_fc)
-   
+   fixed_cost = lpSum(list_fc)
+
    #variable costs
    list_vc1 = [ varCost_cij [key] * O[key[0]-1] * Z[key[0]][key[1]] for key in varCost_cij]
    list_vc2 = [ varCost_cij [key] * D[key[1]-1] * Z[key[1]][key[0]] for key in varCost_cij]
    variable_cost1 = lpSum(list_vc1) + lpSum(list_vc2)
-   
+
    list_vc3 = []
    for i in set:
       for k in set:
          for m in set:
-            if k!=m: 
-               list_vc3.append( alpha * varCost_cij[(k,m)] * X[i,(k,m)])
-   variable_cost2= LpSum(list_vc3)
-   
+            if k!=m:
+               list_vc3.append( alpha * varCost_cij[(k,m)] * X[i][k][m])
+   variable_cost2= lpSum(list_vc3)
+
    variable_cost= variable_cost1 + variable_cost2
-                        
+
    Hub+= fixed_cost + variable_cost
-                
-                        
-         
-   
+
+
+
+
    # contrainte1
    for i in set:
       Hub+= lpSum(Z[i][k] for k in set)==1
-   
+
    #contrainte2
    for k in set:
       for m in set:
          if m>k:
             Hub += Z[k][m]+Y[k][m]<=Z[m][m]
             Hub += Z[m][k]+Y[k][m]<=Z[k][k]
-   
+
    #contrainte3
    for i in set:
      for k in set:
        for m in set:
           if m>k:
-             Hub += X[i,(k,m)] + X[i,(m,k)] <= O[i-1]*Y[k][m]
-            
+             Hub += X[i][k][m] + X[i][m][k] <= O[i-1]*Y[k][m]
+
    #contrainte4:
-    
+
    for k in set:
        for i in set:
             if i!=k:
@@ -128,9 +128,9 @@ if __name__ == "__main__":
                somme2=0
                for m in set:
                   if m!=k:
-                     somme1+= X[i,(m,k)]
-                     somme2+= X[i,(k,m)]
-               Hub+= (O[i-1]*Z[i][k] + somme1) == somme2 + lpSum(flow_wij[i][m]*Z[m][k] for m in set)
+                     somme1+= X[i][m][k]
+                     somme2+= X[i][k][m]
+               Hub+= (O[i-1]*Z[i][k] + somme1) == somme2 + lpSum(flow_wij[(i,m)]*Z[m][k] for m in set)
 
    #contrainte5:
    for k in set:
@@ -139,12 +139,12 @@ if __name__ == "__main__":
             somme = 0
             for m in set:
                if m!=k:
-                  somme+= X[i,(m,k)]
-      Hub += lpSum((O[i]*Z[i][k] + somme) for i in set) <= Cap_ckmax[k-1]
-            
+                  somme+= X[i][m][k]
+      Hub += lpSum((O[i-1]*Z[i][k] + somme) for i in set) <= Cap_ckmax[k-1]
+
     #contrainte6
-   Hub += (lpSum(lpSum(Y[k][m] for m in set)for k in set)==lpSum(Z[k][k] for k in set)- 1)          
-   
+   Hub += (lpSum(lpSum(Y[k][m] for m in set)for k in set)==lpSum(Z[k][k] for k in set)- 1)
+
    Hub.solve()
    print ("Status:",LpStatus[Hub.status])
    for v in Hub.variables():
