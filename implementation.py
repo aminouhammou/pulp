@@ -8,7 +8,7 @@ import math as mt
 
 if __name__ == "__main__":
 
-   InputData = "InputDataExample.xlsx"
+   InputData = "InputDataSmallHubSmallInstance.xlsx"
 
   # Input Data Preparation #
    def read_excel(filename, sheet_name):
