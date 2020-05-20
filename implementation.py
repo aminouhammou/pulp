@@ -41,27 +41,23 @@ if __name__ == "__main__":
 
    # Read a set (set is the name of the worksheet)
    # The set has eight elements
-   set = read_excel(InputData, "set")
-   print("set: ", set)
-
-   # Read an array 1x1 (array1 is the name of the worksheet)
-   NodeNum = read_excel(InputData, "NodeNum")
+   NodeNum = read_excel_data(InputData, "NodeNum")
    NodeNum = NodeNum[0]
    print("NodeNum: ", NodeNum)
 
-   alpha = read_excel(InputData, "alpha")
+   alpha = read_excel_data(InputData, "alpha")
    alpha = alpha[0]
    print("alpha: ", alpha)
-   
+
    # Read an array 4x4 (array2 is the name of the worksheet)
-   flow(wij) = read_excel(InputData, "flow(wij)")
-   print("flow(wij): ", flow(wij))
+   flow_wij = read_excel_data(InputData, "flow(wij)")
+   print("flow(wij): ", flow_wij)
 
-   varCost(cij) = read_excel(InputData, "varCost(cij)")
-   print("varCost(cij): ", varCost(cij)))
+   varCost_cij = read_excel_data(InputData, "varCost(cij)")
+   print("varCost(cij): ", varCost_cij)
 
-   fixCost(fk) = read_excel(InputData, "fixCost(fk)")
-   print("fixCost(fk): ", fixCost(fk)))
+   fixCost_fk = read_excel_data(InputData, "fixCost(fk)")
+   print("fixCost(fk): ", fixCost_fk)
 
-   Cap(ckmax) = read_excel(InputData, "Cap(ckmax)")
-   print("Cap(ckmax): ", Cap(ckmax)))   
+   Cap_ckmax = read_excel_data(InputData, "Cap(ckmax)")
+   print("Cap(ckmax): ", Cap_ckmax)
