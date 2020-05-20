@@ -84,7 +84,7 @@ if __name__ == "__main__":
    #variable costs
    list_vc1 = [ varCost_cij [key] * O[key[0]-1] * Z[key[0]][key[1]] for key in varCost_cij]
    list_vc2 = [ varCost_cij [key] * D[key[1]-1] * Z[key[1]][key[0]] for key in varCost_cij]
-   variable_cost1 = lpSum([lpSum(list_vc1),lpSum(list_vc2)])
+   variable_cost1 = lpSum(list_vc1) + lpSum(list_vc2)
    
    list_vc3 = []
    for i in set:
@@ -94,9 +94,9 @@ if __name__ == "__main__":
                list_vc3.append( alpha * varCost_cij[(k,m)] * X[i,(k,m)])
    variable_cost2= LpSum(list_vc3)
    
-   variable_cost= lpSum([variable_cost1,variable_cost2])
+   variable_cost= variable_cost1 + variable_cost2
                         
-   Hub+=lpSum([fixed_cost,variable_cost])
+   Hub+= fixed_cost + variable_cost
                 
                         
          
