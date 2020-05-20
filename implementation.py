@@ -103,7 +103,7 @@ if __name__ == "__main__":
    
    # contrainte1
    for i in set:
-      Hub+= (lpSum(Z[i][k] for k in set) = 1) 
+      Hub+= lpSum(Z[i][k] for k in set)==1
    
    #contrainte2
    for k in set:
@@ -119,30 +119,31 @@ if __name__ == "__main__":
           if m>k:
              Hub += X[i,(k,m)] + X[i,(m,k)] <= O[i-1]*Y[k][m]
             
-       #contrainte4:
+   #contrainte4:
     
-    for k in set:
-        for i in set:
+   for k in set:
+       for i in set:
             if i!=k:
                somme1=0
                somme2=0
-                for m in set:                     
-                    if m!=k:
-                        somme1+= X[i,(m,k)]
-                        somme2+= X[i,(k,m)]
-                Hub+= (O[i-1]*Z[i][k] + somme1) = somme2 + lpSum(flow_wij[i][m]*Z[m][k] for m in set)
+               for m in set:
+                  if m!=k:
+                     somme1+= X[i,(m,k)]
+                     somme2+= X[i,(k,m)]
+               Hub+= (O[i-1]*Z[i][k] + somme1) == somme2 + lpSum(flow_wij[i][m]*Z[m][k] for m in set)
+
    #contrainte5:
    for k in set:
       for i in set:
-         if i=!k:
+         if i!=k:
             somme = 0
             for m in set:
-               if m=!k:
+               if m!=k:
                   somme+= X[i,(m,k)]
       Hub += lpSum((O[i]*Z[i][k] + somme) for i in set) <= Cap_ckmax[k-1]
             
     #contrainte6
-   Hub += (lpSum(lpSum(Y[k][m] for m in set)for k in set)=lpSum(Z[k][k] for k in set)- 1)          
+   Hub += (lpSum(lpSum(Y[k][m] for m in set)for k in set)==lpSum(Z[k][k] for k in set)- 1)          
    
    Hub.solve()
    print ("Status:",LpStatus[Hub.status])
