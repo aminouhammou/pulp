@@ -69,5 +69,8 @@ if __name__ == "__main__":
    Hub=LpProblem("Hub",LpMinimize)
    list_fc = [fixCost_fk[k] * Z[k][k] for k in set]
    fixed_cost = LpSum(list_fc)
-   Hub+= (lpSum(Z[i][k] for k in set) = 1)
+   
+   # contrainte1
+   Hub+= (lpSum(Z[i][k] for k in set) = 1) 
+   
    
