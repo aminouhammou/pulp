@@ -77,27 +77,31 @@ if __name__ == "__main__":
 
    Hub=LpProblem("Hub",LpMinimize)
 
-   #fixed costs
-   list_fc = [fixCost_fk[k-1] * Z[k][k] for k in set]
-   fixed_cost = lpSum(list_fc)
+      #fixed costs
+   fixed_cost=0
+   for k in set:
+      fixed_cost+= fixCost_fk[k-1] * Z[k][k]
+
 
    #variable costs
-   list_vc1 = [ varCost_cij [key] * O[key[0]-1] * Z[key[0]][key[1]] for key in varCost_cij]
-   list_vc2 = [ varCost_cij [key] * D[key[1]-1] * Z[key[1]][key[0]] for key in varCost_cij]
-   variable_cost1 = lpSum(list_vc1) + lpSum(list_vc2)
+   vc1=0
+   vc2=0
 
-   list_vc3 = []
+   #premiere double somme
    for i in set:
       for k in set:
-         for m in set:
-            if k!=m:
-               list_vc3.append( alpha * varCost_cij[(k,m)] * X[i][k][m])
-   variable_cost2= lpSum(list_vc3)
+         vc1+= ( varCost_cij[(i,k)]*O[i-1] + varCost_cij[(k,i)]*D[i-1])* Z[i][k]
 
-   variable_cost= variable_cost1 + variable_cost2
+   #seconde double somme
+   for i in set:
+      for k in set:
+         for l in set:
+            if l!=k :
+               vc2+= alpha * varCost_cij[(k,l)] * X[i][k][l]
+
+   variable_cost= vc1 + vc2
 
    Hub+= fixed_cost + variable_cost
-
 
 
 
@@ -134,13 +138,7 @@ if __name__ == "__main__":
 
    #contrainte5:
    for k in set:
-      for i in set:
-         if i!=k:
-            somme = 0
-            for m in set:
-               if m!=k:
-                  somme+= X[i][m][k]
-      Hub += lpSum((O[i-1]*Z[i][k] + somme) for i in set) <= Cap_ckmax[k-1]
+      Hub+=lpSum(O[i-1]*Z[i][k] for i in set)+lpSum(lpSum(X[i][m][k] for m in set)for i in set) <= Cap_ckmax[k-1]
 
     #contrainte6
    Hub += (lpSum(lpSum(Y[k][m] for m in set)for k in set)==lpSum(Z[k][k] for k in set)- 1)
