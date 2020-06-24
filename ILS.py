@@ -145,7 +145,7 @@ def Local_Search2(M): #Algorithme du Local Search 2
         S_current = 0 
         for k in spokes : #on parcourt la liste des spokes
             M_current =[k for k in M]
-            for l in range (len(m[1])): #on parcourt la deuxième colonne du tableau
+            for l in range (len(M[1])): #on parcourt la deuxième colonne du tableau
                 if M[l][1] != i: #on vérifie que l'index est le bon
                     if M[l][1] == k:
                         M_current[l][1] = i
@@ -157,7 +157,7 @@ def Local_Search2(M): #Algorithme du Local Search 2
     return M
 
             
-def cout_tot(m): #calcul du coût d'un modèle
+def cout_tot(M): #calcul du coût d'un modèle
     H, S = Hub_Spoke(M)
     Graph = nx.Graph(M)
     All_Path = dict(nx.all_pairs_shortest_path(Graph)) #création des chemins les plus courts
@@ -168,6 +168,6 @@ def cout_tot(m): #calcul du coût d'un modèle
             for k in All_Path[(i, j)] :
                 if k!= i:
                     cost+= flow_wij[(i,j)]*varCost_cij[(i, k)] #ajout des coûts variables en suivant le plus court chemin
-    return S
+    return cost
             
             
